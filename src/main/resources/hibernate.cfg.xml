@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost/CarBuyerStore</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">password</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+
+
+        <mapping class="ru.job4j.carmarket.model.Account"/>
+        <mapping class="ru.job4j.carmarket.model.Advert"/>
+        <mapping class="ru.job4j.carmarket.model.Car"/>
+        <mapping class="ru.job4j.carmarket.model.CarBody"/>
+        <mapping class="ru.job4j.carmarket.model.Engine"/>
+        <mapping class="ru.job4j.carmarket.model.Mark"/>
+        <mapping class="ru.job4j.carmarket.model.Model"/>
+        <mapping class="ru.job4j.carmarket.model.Transmission"/>
+        <mapping class="ru.job4j.carmarket.model.User"/>
+    </session-factory>
+</hibernate-configuration>
