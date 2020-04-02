@@ -77,23 +77,14 @@ public class AdvertsRepository implements Repository<Advert, Car, User> {
     @Override
     public List<Advert> showWithSpecificMark(Mark mark) {
         List<Advert> result = new ArrayList<>();
-        int findId = 0;
         Session session = factory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            List<Mark> list = session.createQuery("FROM ru.job4j.carmarket.model.Mark").list();
-            for (Mark mark1 : list) {
-                if (mark1.getName().equals(mark.getName())) {
-                    findId = mark1.getId();
-                    break;
-                }
-            }
-            if (findId != 0) {
-                Query query = session.createQuery("FROM ru.job4j.carmarket.model.Advert as adv "
-                        + "join fetch adv.car WHERE mark_id = :id");
-                query.setParameter("id", findId);
-                result = query.list();
-            }
+            Query query = session.createQuery("FROM ru.job4j.carmarket.model.Advert as adv "
+                    + "join fetch adv.car cars "
+                    + "join fetch cars.mark WHERE name = :markName");
+            query.setParameter("markName", mark.getName());
+            result = query.list();
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
