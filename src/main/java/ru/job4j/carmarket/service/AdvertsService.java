@@ -7,7 +7,7 @@ import ru.job4j.carmarket.repository.Repository;
 
 import java.util.List;
 
-@Component
+@Component(value = "adverts")
 public class AdvertsService implements Service<Advert, Car, User> {
 
     private final Repository<Advert, Car, User> repository;

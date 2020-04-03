@@ -1,6 +1,7 @@
 package ru.job4j.carmarket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class AdvertsController {
     private final Service<Advert, Car, User> service;
 
     @Autowired
-    public AdvertsController(Service<Advert, Car, User> service) {
+    public AdvertsController(@Qualifier("crud") Service<Advert, Car, User> service) {
         this.service = service;
     }
 

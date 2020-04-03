@@ -2,6 +2,7 @@ package ru.job4j.carmarket.controller;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +24,7 @@ public class RegistrationController {
     private final Service<Advert, Car, User> service;
 
     @Autowired
-    public RegistrationController(Service<Advert, Car, User> service) {
+    public RegistrationController(@Qualifier("crud") Service<Advert, Car, User> service) {
         this.service = service;
     }
 
@@ -58,7 +59,7 @@ public class RegistrationController {
         account.setLogin(login);
 
         if (!service.validateAccount(account)) {
-            response = "Enter another login";
+            response = "Enter another login.";
         }
 
         String json = new Gson().toJson(response);

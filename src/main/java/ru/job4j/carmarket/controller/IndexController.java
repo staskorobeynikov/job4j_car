@@ -2,6 +2,7 @@ package ru.job4j.carmarket.controller;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
@@ -27,7 +28,7 @@ public class IndexController {
     private final Service<Advert, Car, User> service;
 
     @Autowired
-    public IndexController(Service<Advert, Car, User> service) {
+    public IndexController(@Qualifier("crud") Service<Advert, Car, User> service) {
         this.service = service;
     }
 

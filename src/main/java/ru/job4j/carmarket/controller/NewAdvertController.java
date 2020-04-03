@@ -7,6 +7,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +30,7 @@ public class NewAdvertController {
     private static final Logger LOG = LogManager.getLogger(NewAdvertController.class.getName());
 
     @Autowired
-    public NewAdvertController(Service<Advert, Car, User> service) {
+    public NewAdvertController(@Qualifier("crud") Service<Advert, Car, User> service) {
         this.service = service;
     }
 
