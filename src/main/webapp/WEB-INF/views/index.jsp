@@ -89,7 +89,7 @@
                 $(".custom-select").change(function () {
                     let selectMark = $(this).val();
                     if (selectMark !== '') {
-                        document.location.href = "${pageContext.servletContext.contextPath}/marks?name=" + selectMark;
+                        document.location.href = "${pageContext.servletContext.contextPath}/marks/" + selectMark;
                     }
                 });
             </script>
@@ -128,7 +128,7 @@
                             let id = $(this).attr("id");
                             $.ajax({
                                 type: 'POST',
-                                url: '${pageContext.servletContext.contextPath}/cars?id=' + id,
+                                url: '${pageContext.servletContext.contextPath}/cars/' + id,
                                 dataType: 'json',
                                 success: function (data) {
                                     addCarInfo(data);
@@ -162,7 +162,7 @@
                             let id = ${advert.owner.id};
                             $.ajax({
                                 type: 'POST',
-                                url: '${pageContext.servletContext.contextPath}/users?id=' + id,
+                                url: '${pageContext.servletContext.contextPath}/users/' + id,
                                 dataType: 'json',
                                 success: function (data) {
                                     addUserInfo(data);

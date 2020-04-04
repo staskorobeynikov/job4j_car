@@ -80,7 +80,7 @@
                 let selectLogin = $(this).val();
                 $.ajax({
                     type: 'POST',
-                    url: '${pageContext.servletContext.contextPath}/logins?login=' + selectLogin,
+                    url: '${pageContext.servletContext.contextPath}/logins/' + selectLogin,
                     dataType: 'json',
                     success: function (data) {
                         let valid;

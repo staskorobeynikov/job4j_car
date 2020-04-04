@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.carmarket.model.Advert;
 import ru.job4j.carmarket.model.Car;
 import ru.job4j.carmarket.model.Mark;
@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Map;
 
 @Controller
 public class IndexController {
@@ -52,13 +51,10 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/marks", method = RequestMethod.GET)
-    public String showSpecificMark(@RequestParam Map<String, String> map, ModelMap modelMap) {
-        String name = map.get("name");
-        Mark mark = new Mark();
-        mark.setName(name);
+    @RequestMapping(value = "/marks/{name}", method = RequestMethod.GET)
+    public String showSpecificMark(@ModelAttribute("name") Mark mark, ModelMap modelMap) {
         modelMap.addAttribute("adverts", service.showWithSpecificMark(mark));
-        modelMap.addAttribute("mark", name);
+        modelMap.addAttribute("mark", mark.getName());
         return "index";
     }
 
@@ -74,20 +70,16 @@ public class IndexController {
         }
     }
 
-    @RequestMapping(value = "/cars", method = RequestMethod.POST)
-    public void showInfoCar(@RequestParam Map<String, String> map, HttpServletResponse resp) throws IOException {
-        String id = map.get("id");
-        Car car = service.getCar(Integer.parseInt(id));
-        String json = new Gson().toJson(car);
+    @RequestMapping(value = "/cars/{id}", method = RequestMethod.POST)
+    public void showInfoCar(@ModelAttribute("id") Car car, HttpServletResponse resp) throws IOException {
+        String json = new Gson().toJson(service.getCar(car.getId()));
         resp.setContentType("json");
         resp.getWriter().write(json);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public void showInfoOwner(@RequestParam Map<String, String> map, HttpServletResponse resp) throws IOException {
-        String id = map.get("id");
-        User user = service.getUser(Integer.parseInt(id));
-        String json = new Gson().toJson(user);
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
+    public void showInfoOwner(@ModelAttribute("id") User user, HttpServletResponse resp) throws IOException {
+        String json = new Gson().toJson(service.getUser(user.getId()));
         resp.setContentType("json");
         resp.getWriter().write(json);
     }

@@ -32,7 +32,7 @@
 
     function redirectAddAdvert() {
         setTimeout(function () {
-            window.location.href = "${pageContext.servletContext.contextPath}/add?user=" + ${findUser.id};
+            window.location.href = "${pageContext.servletContext.contextPath}/add/" + ${findUser.id};
         }, 1000);
     }
 </script>
@@ -75,7 +75,7 @@
                             let userId = ${advert.owner.id};
                             $.ajax({
                                 type: 'POST',
-                                url: "${pageContext.servletContext.contextPath}/update?id=" + id + "&status=" + true + "&user=" + userId,
+                                url: "${pageContext.servletContext.contextPath}/update/" + id + "/" + true + "/owner/" + userId,
                                 success: function (data) {
                                     location.reload();
                                 }
