@@ -83,9 +83,4 @@ public class IndexController {
         resp.setContentType("json");
         resp.getWriter().write(json);
     }
-
-    @RequestMapping(value = "/authorization")
-    public String redirect() {
-        return "login";
-    }
 }

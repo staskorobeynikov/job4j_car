@@ -40,9 +40,9 @@
 </div>
 <form class="container" action="${pageContext.servletContext.contextPath}/login" method="post">
     <div class="form-group row">
-        <label class="col-form-label col-sm-1" for="login" style="font-weight: 900">Login</label>
+        <label class="col-form-label col-sm-1" for="username" style="font-weight: 900">Login</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" id="login" name="login" placeholder="Enter login" required>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter login" required>
         </div>
     </div>
     <div class="form-group row">

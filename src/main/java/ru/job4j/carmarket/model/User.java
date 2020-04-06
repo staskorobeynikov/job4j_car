@@ -20,9 +20,11 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", foreignKey = @ForeignKey(name = "account_id_fk"))
-    private Account account;
+    private String username;
+
+    private String password;
+
+    private String role;
 
     public User() {
     }
@@ -63,12 +65,28 @@ public class User {
         this.address = address;
     }
 
-    public Account getAccount() {
-        return account;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -90,6 +108,15 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("User: id=%s, name=%s, phone=%s, address=%s", id, name, phone, address);
+        return String.format(
+                "User: id=%s, name=%s, phone=%s, address=%s, username=%s, password=%s, role=%s",
+                id,
+                name,
+                phone,
+                address,
+                username,
+                password,
+                role
+        );
     }
 }

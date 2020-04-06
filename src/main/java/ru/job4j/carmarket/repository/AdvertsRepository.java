@@ -215,10 +215,7 @@ public class AdvertsRepository implements Repository<Advert, Car, User> {
         Transaction transaction = session.beginTransaction();
         try {
             session.save(account);
-
-            user.setAccount(account);
             session.save(user);
-
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();

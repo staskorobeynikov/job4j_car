@@ -26,7 +26,7 @@
 <script>
     function returnStartPage() {
         setTimeout(function () {
-            window.location.href = "${pageContext.servletContext.contextPath}/";
+            window.location.href = "${pageContext.servletContext.contextPath}/logout";
         }, 1000);
     }
 
@@ -94,7 +94,7 @@
         <button id="add" type="button" class="btn btn-dark" onclick="redirectAddAdvert()">Add new advert</button>
     </div>
     <div class="col-sm-9">
-        <button id="return" type="button" class="btn btn-dark" onclick="returnStartPage()">Return start page</button>
+        <button id="return" type="button" class="btn btn-dark" onclick="returnStartPage()">Log out</button>
     </div>
 </div>
 </body>

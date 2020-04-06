@@ -2,6 +2,8 @@ package ru.job4j.carmarket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +33,20 @@ public class AdvertsController {
     public String redirectAdd(@ModelAttribute User user, ModelMap modelMap) {
         modelMap.addAttribute("addUser", service.getUser(user.getId()));
         return "newadvert";
+    }
+
+    @RequestMapping(value = "/authorization", method = RequestMethod.GET)
+    public String showAdvertsUser(ModelMap modelMap) {
+        String result = "login";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        if (!username.equals("anonymousUser")) {
+            User user = new User();
+            user.setUsername(username);
+            modelMap.addAttribute("adverts", service.getAdvertsUser(user));
+            modelMap.addAttribute("findUser", service.findByUsername(username));
+            result = "adverts";
+        }
+        return result;
     }
 }

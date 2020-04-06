@@ -71,12 +71,12 @@
         </div>
     </div>
     <div class="form-group row">
-        <label class="col-form-label col-sm-2" for="login" style="font-weight: 900">Your login</label>
+        <label class="col-form-label col-sm-2" for="username" style="font-weight: 900">Your login</label>
         <div class="col-sm-5">
-            <input type="text" class="form-control" id="login" name="login" placeholder="Enter login" required>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter login" required>
         </div>
         <script>
-            $("#login").focusout(function () {
+            $("#username").focusout(function () {
                 let selectLogin = $(this).val();
                 $.ajax({
                     type: 'POST',
@@ -87,7 +87,7 @@
                         if (data !== '') {
                             $('#valid').empty();
                             valid = "<c:out value="Invalid user login"/>";
-                            $("#login").val('');
+                            $("#username").val('');
                             $('#invalid').html(valid);
                         } else {
                             $('#invalid').empty();

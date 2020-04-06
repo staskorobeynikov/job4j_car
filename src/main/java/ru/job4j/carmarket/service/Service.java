@@ -30,4 +30,8 @@ public interface Service<T, E, V> {
     V addUser(V v, Account account);
 
     boolean validateAccount(Account account);
+
+    boolean validateUser(V v);
+
+    V findByUsername(String username);
 }

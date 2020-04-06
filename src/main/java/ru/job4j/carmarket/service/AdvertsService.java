@@ -63,17 +63,7 @@ public class AdvertsService implements Service<Advert, Car, User> {
 
     @Override
     public User isCredential(Account account) {
-        User result = null;
-        Account check;
-        for (User user : repository.getUsers()) {
-            check = user.getAccount();
-            if (check.getLogin().equals(account.getLogin())
-                    && check.getPassword().equals(account.getPassword())) {
-                result = user;
-                break;
-            }
-        }
-        return result;
+        return null;
     }
 
     @Override
@@ -99,15 +89,16 @@ public class AdvertsService implements Service<Advert, Car, User> {
 
     @Override
     public boolean validateAccount(Account account) {
-        boolean result = true;
-        Account check;
-        for (User user : repository.getUsers()) {
-            check = user.getAccount();
-            if (check.getLogin().equals(account.getLogin())) {
-                result = false;
-                break;
-            }
-        }
-        return result;
+        return true;
+    }
+
+    @Override
+    public boolean validateUser(User user) {
+        return false;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return null;
     }
 }

@@ -79,12 +79,13 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
 
     @Override
     public User isCredential(Account account) {
-        return userRepository.findUserByAccount_LoginAndAccount_Password(account.getLogin(), account.getPassword());
+        return null;
     }
 
     @Override
     public List<Advert> getAdvertsUser(User user) {
-        return advertRepository.findAdvertByOwner_Id(user.getId());
+        User find = userRepository.findByUsername(user.getUsername());
+        return advertRepository.findAdvertByOwner_Id(find.getId());
     }
 
     @Override
@@ -154,8 +155,6 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
 
     @Override
     public User addUser(User user, Account account) {
-        Account addAccount = accountRepository.save(account);
-        user.setAccount(addAccount);
         return userRepository.save(user);
     }
 
@@ -167,5 +166,20 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
             result = false;
         }
         return result;
+    }
+
+    @Override
+    public boolean validateUser(User user) {
+        boolean result = true;
+        User findUser = userRepository.findByUsername(user.getUsername());
+        if (findUser != null) {
+            result = false;
+        }
+        return result;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
