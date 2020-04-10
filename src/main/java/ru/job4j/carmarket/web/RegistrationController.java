@@ -1,18 +1,16 @@
-package ru.job4j.carmarket.controller;
+package ru.job4j.carmarket.web;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.job4j.carmarket.model.Account;
-import ru.job4j.carmarket.model.Advert;
-import ru.job4j.carmarket.model.Car;
-import ru.job4j.carmarket.model.User;
-import ru.job4j.carmarket.service.Service;
+import ru.job4j.carmarket.domain.Advert;
+import ru.job4j.carmarket.domain.Car;
+import ru.job4j.carmarket.domain.User;
+import ru.job4j.carmarket.service.ServiceInterface;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,21 +18,21 @@ import java.io.IOException;
 @Controller
 public class RegistrationController {
 
-    private final Service<Advert, Car, User> service;
+    private final ServiceInterface<Advert, Car, User> service;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public RegistrationController(@Qualifier("crud") Service<Advert, Car, User> service) {
+    public RegistrationController(ServiceInterface<Advert, Car, User> service, PasswordEncoder passwordEncoder) {
         this.service = service;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute Account account, @ModelAttribute User user) {
+    public String addUser(@ModelAttribute User user) {
         user.setRole("USER");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        service.addUser(user, account);
+        service.addUser(user);
         return "redirect:/authorization";
     }
 

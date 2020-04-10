@@ -1,14 +1,14 @@
 package ru.job4j.carmarket.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.carmarket.model.Advert;
+import ru.job4j.carmarket.domain.Advert;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 public interface AdvertRepository extends CrudRepository<Advert, Integer> {
 
-    List<Advert> findByCar_Mark_Name(String name);
+    List<Advert> findByCar_Mark_MarkName(String name);
 
     List<Advert> findByImageNameIsNot(String string);
 

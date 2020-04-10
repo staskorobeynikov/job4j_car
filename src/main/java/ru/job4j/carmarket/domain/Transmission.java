@@ -1,4 +1,4 @@
-package ru.job4j.carmarket.model;
+package ru.job4j.carmarket.domain;
 
 import javax.persistence.*;
 import java.util.Objects;

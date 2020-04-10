@@ -1,24 +1,23 @@
-package ru.job4j.carmarket.controller;
+package ru.job4j.carmarket.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.carmarket.model.Advert;
-import ru.job4j.carmarket.model.Car;
-import ru.job4j.carmarket.model.User;
-import ru.job4j.carmarket.service.Service;
+import ru.job4j.carmarket.domain.Advert;
+import ru.job4j.carmarket.domain.Car;
+import ru.job4j.carmarket.domain.User;
+import ru.job4j.carmarket.service.ServiceInterface;
 
 @Controller
 public class AdvertsController {
 
-    private final Service<Advert, Car, User> service;
+    private final ServiceInterface<Advert, Car, User> service;
 
     @Autowired
-    public AdvertsController(@Qualifier("crud") Service<Advert, Car, User> service) {
+    public AdvertsController(ServiceInterface<Advert, Car, User> service) {
         this.service = service;
     }
 
@@ -44,7 +43,7 @@ public class AdvertsController {
             User user = new User();
             user.setUsername(username);
             modelMap.addAttribute("adverts", service.getAdvertsUser(user));
-            modelMap.addAttribute("findUser", service.findByUsername(username));
+            modelMap.addAttribute("user", service.findByUsername(username));
             result = "adverts";
         }
         return result;

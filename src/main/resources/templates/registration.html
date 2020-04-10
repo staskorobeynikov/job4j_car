@@ -1,7 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Registration</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -23,6 +24,7 @@
         crossorigin="anonymous">
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<body>
 <script>
     $(document).on("keyup", ":password", function () {
         let first = $("#password").val();
@@ -38,14 +40,13 @@
         }
     });
 </script>
-<body>
-<div class="error" style="text-align: center">
+<div class="errorLogin" style="text-align: center">
     <div style="background-color:red" id="invalid">
     </div>
     <div style="background-color:lightgreen" id="valid">
     </div>
 </div>
-<form action="${pageContext.servletContext.contextPath}/addUser" method="post" class="container">
+<form th:action="@{/addUser}" method="post" class="container">
     <div class="col-sm-5">
         <h3>Fill the form for registration</h3>
     </div>
@@ -80,18 +81,18 @@
                 let selectLogin = $(this).val();
                 $.ajax({
                     type: 'POST',
-                    url: '${pageContext.servletContext.contextPath}/logins/' + selectLogin,
+                    url: './logins/' + selectLogin,
                     dataType: 'json',
                     success: function (data) {
                         let valid;
                         if (data !== '') {
                             $('#valid').empty();
-                            valid = "<c:out value="Invalid user login"/>";
+                            valid = "Invalid user login";
                             $("#username").val('');
                             $('#invalid').html(valid);
                         } else {
                             $('#invalid').empty();
-                            valid = "<c:out value="Correctly user login"/>";
+                            valid = "Correctly user login";
                             $('#valid').html(valid);
                         }
                     }

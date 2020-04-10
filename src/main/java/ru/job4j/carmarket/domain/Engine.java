@@ -1,4 +1,4 @@
-package ru.job4j.carmarket.model;
+package ru.job4j.carmarket.domain;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -18,7 +18,7 @@ public class Engine {
     private int power;
 
     @Column(name = "type")
-    private String type;
+    private String engineType;
 
     public Engine() {
     }
@@ -51,12 +51,12 @@ public class Engine {
         this.power = power;
     }
 
-    public String getType() {
-        return type;
+    public String getEngineType() {
+        return engineType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setEngineType(String engineType) {
+        this.engineType = engineType;
     }
 
     @Override
@@ -78,6 +78,6 @@ public class Engine {
 
     @Override
     public String toString() {
-        return String.format("Engine: id=%s, volume=%s, power=%s, type=%s.", id, volume, power, type);
+        return String.format("Engine: id=%s, volume=%s, power=%s, type=%s.", id, volume, power, engineType);
     }
 }

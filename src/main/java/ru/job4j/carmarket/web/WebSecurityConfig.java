@@ -1,4 +1,4 @@
-package ru.job4j.carmarket.config;
+package ru.job4j.carmarket.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

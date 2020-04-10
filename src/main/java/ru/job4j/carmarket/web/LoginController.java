@@ -1,14 +1,8 @@
-package ru.job4j.carmarket.controller;
+package ru.job4j.carmarket.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.carmarket.model.Advert;
-import ru.job4j.carmarket.model.Car;
-import ru.job4j.carmarket.model.User;
-import ru.job4j.carmarket.service.Service;
 
 @Controller
 public class LoginController {

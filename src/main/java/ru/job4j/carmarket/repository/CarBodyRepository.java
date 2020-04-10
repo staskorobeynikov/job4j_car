@@ -1,7 +1,7 @@
 package ru.job4j.carmarket.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.carmarket.model.CarBody;
+import ru.job4j.carmarket.domain.CarBody;
 
 public interface CarBodyRepository extends CrudRepository<CarBody, Integer> {
 

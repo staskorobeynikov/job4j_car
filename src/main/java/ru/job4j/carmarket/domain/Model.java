@@ -1,23 +1,23 @@
-package ru.job4j.carmarket.model;
+package ru.job4j.carmarket.domain;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "marks")
-public class Mark {
+@Table(name = "models")
+public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name")
-    private String name;
+    private String modelName;
 
-    public Mark() {
+    public Model() {
     }
 
-    public Mark(int id) {
+    public Model(int id) {
         this.id = id;
     }
 
@@ -29,12 +29,12 @@ public class Mark {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getModelName() {
+        return modelName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 
     @Override
@@ -45,8 +45,8 @@ public class Mark {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Mark mark = (Mark) o;
-        return id == mark.id;
+        Model model = (Model) o;
+        return id == model.id;
     }
 
     @Override
@@ -56,6 +56,6 @@ public class Mark {
 
     @Override
     public String toString() {
-        return String.format("Mark: id=%s, name=%s.", id, name);
+        return String.format("Model: id=%s, name=%s", id, modelName);
     }
 }

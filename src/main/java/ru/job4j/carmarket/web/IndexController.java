@@ -1,19 +1,18 @@
-package ru.job4j.carmarket.controller;
+package ru.job4j.carmarket.web;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.job4j.carmarket.model.Advert;
-import ru.job4j.carmarket.model.Car;
-import ru.job4j.carmarket.model.Mark;
-import ru.job4j.carmarket.model.User;
-import ru.job4j.carmarket.service.Service;
+import ru.job4j.carmarket.domain.Advert;
+import ru.job4j.carmarket.domain.Car;
+import ru.job4j.carmarket.domain.Mark;
+import ru.job4j.carmarket.domain.User;
+import ru.job4j.carmarket.service.ServiceInterface;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,10 +23,10 @@ import java.io.IOException;
 @Controller
 public class IndexController {
 
-    private final Service<Advert, Car, User> service;
+    private final ServiceInterface<Advert, Car, User> service;
 
     @Autowired
-    public IndexController(@Qualifier("crud") Service<Advert, Car, User> service) {
+    public IndexController(ServiceInterface<Advert, Car, User> service) {
         this.service = service;
     }
 
@@ -51,10 +50,10 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/marks/{name}", method = RequestMethod.GET)
-    public String showSpecificMark(@ModelAttribute("name") Mark mark, ModelMap modelMap) {
+    @RequestMapping(value = "/marks/{markName}", method = RequestMethod.GET)
+    public String showSpecificMark(@ModelAttribute Mark mark, ModelMap modelMap) {
         modelMap.addAttribute("adverts", service.showWithSpecificMark(mark));
-        modelMap.addAttribute("mark", mark.getName());
+        modelMap.addAttribute("setMark", mark.getMarkName());
         return "index";
     }
 

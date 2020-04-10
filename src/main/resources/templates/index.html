@@ -1,7 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>All Adverts</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -35,69 +36,57 @@
     function showWithPhoto() {
         let selector = $("#fPhoto");
         if (selector.prop("checked")) {
-            document.location.href = "${pageContext.servletContext.contextPath}/withphoto";
+            document.location.href = "./withphoto";
         } else {
-            document.location.href = "${pageContext.servletContext.contextPath}/";
+            document.location.href = "./";
         }
     }
 
     function showLastDay() {
         let selector = $("#lDay");
         if (selector.prop("checked")) {
-            document.location.href = "${pageContext.servletContext.contextPath}/lastday";
+            document.location.href = "./lastday";
         } else {
-            document.location.href = "${pageContext.servletContext.contextPath}/";
+            document.location.href = "./";
         }
     }
 </script>
 <script>
     function enter() {
-        window.location.href = "${pageContext.servletContext.contextPath}/authorization";
+        window.location.href = "./authorization";
     }
 </script>
 <div class="container">
     <div class="form-inline">
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" value="lDay" name="lDay" id="lDay" onchange="showLastDay()">
+            <input class="form-check-input" type="checkbox" value="lDay" name="lDay"
+                   id="lDay" onchange="showLastDay()" th:checked="${day}">
             <label class="form-check-label" for="lDay" style="font-weight: 900">Show last day</label>
-            <c:if test="${day}">
-                <script>
-                    document.getElementById("lDay").checked = ${day};
-                </script>
-            </c:if>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" value="fPhoto" name="fPhoto" id="fPhoto" onchange="showWithPhoto()">
+            <input class="form-check-input" type="checkbox" value="fPhoto" name="fPhoto"
+                   id="fPhoto" onchange="showWithPhoto()" th:checked="${photo}">
             <label class="form-check-label" for="fPhoto" style="font-weight: 900">Show with photo</label>
-            <c:if test="${photo}">
-                <script>
-                    document.getElementById("fPhoto").checked = ${photo};
-                </script>
-            </c:if>
         </div>
         <label class="col-form-label col-sm-2" for="mark" style="font-weight: 900">Show cars mark</label>
         <div class="col">
             <select class="custom-select" id="mark" name="mark">
-                <option value></option>
+                <option th:value="${setMark}" th:text="${setMark}" th:selected="mark==setMark"></option>
                 <option value="Toyota">Toyota</option>
                 <option value="Mercedes">Mercedes</option>
                 <option value="Renault">Renault</option>
                 <option value="Kia">Kia</option>
                 <option value="Volvo">Volvo</option>
+                <option value="Mazda">Mazda</option>
             </select>
             <script>
                 $(".custom-select").change(function () {
-                    let selectMark = $(this).val();
+                    let selectMark = document.getElementById("mark").value;
                     if (selectMark !== '') {
-                        document.location.href = "${pageContext.servletContext.contextPath}/marks/" + selectMark;
+                        document.location.href = "/marks/" + selectMark;
                     }
                 });
             </script>
-            <c:if test="${mark != ''}">
-                <script>
-                    document.getElementById("mark").value = "${mark}";
-                </script>
-            </c:if>
         </div>
     </div>
     <div class="account">
@@ -116,59 +105,59 @@
             <th scope="col">Status</th>
         </tr>
         </thead>
-        <tbody>
-        <c:forEach items="${adverts}" var="advert">
-            <tr>
+        <tbody >
+            <tr th:each = "advert : ${adverts}">
                 <td>
-                        ${advert.car.mark.name} ${advert.car.model.name} <br><br>
-                    <button id="${advert.id}" type="button" class="btn btn-primary" data-toggle="modal"
+                    <p th:text="${advert.car.mark.markName} + ${advert.car.model.modelName}"></p><br>
+                    <button th:id="${advert.id}" th:onclick="'javascript:showInfoCar(' + ${advert.car.id} + ')'"
+                            type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#carInfo">Details</button>
-                    <script>
-                        $("#${advert.id}").click(function () {
-                            let id = $(this).attr("id");
-                            $.ajax({
-                                type: 'POST',
-                                url: '${pageContext.servletContext.contextPath}/cars/' + id,
-                                dataType: 'json',
-                                success: function (data) {
-                                    addCarInfo(data);
-                                }
-                            })
-                        });
-
-                        function addCarInfo(data) {
-                            let car = data;
-                            document.getElementById("infoLabel").innerHTML = car.mark.name + "\n" + car.model.name;
-                            let result = "<tr><td>Mile age, km</td><td>" + car.mileAge + "</td></tr>";
-                            result += "<tr><td>Date created</td><td>" + car.created + "</td></tr>";
-                            result += "<tr><td>Gear box</td><td>" + car.transmission.gearBox + "</td></tr>";
-                            result += "<tr><td>Gear type</td><td>" + car.transmission.gearType + "</td></tr>";
-                            result += "<tr><td>Car body type</td><td>" + car.carBody.type + "</td></tr>";
-                            result += "<tr><td>Car body color</td><td>" + car.carBody.color + "</td></tr>";
-                            result += "<tr><td>Count door</td><td>" + car.carBody.countDoor + "</td></tr>";
-                            result += "<tr><td>Engine volume, l</td><td>" + car.engine.volume + "</td></tr>";
-                            result += "<tr><td>Engine power, hp</td><td>" + car.engine.power + "</td></tr>";
-                            result += "<tr><td>Engine type</td><td>" + car.engine.type + "</td></tr>";
-                            document.getElementById("info").innerHTML = result;
-                        }
-                    </script>
                 </td>
-                <td>${advert.price}</td>
-                <td>${advert.owner.name} <br><br>
-                    <button id="user${advert.id}" type="button" class="btn btn-primary" data-toggle="modal"
+                <script>
+                    function showInfoCar(id) {
+                        $.ajax({
+                            type: 'POST',
+                            url: './cars/' + id,
+                            dataType: 'json',
+                            success: function (data) {
+                                addCarInfo(data);
+                            }
+                        })
+                    }
+
+                    function addCarInfo(data) {
+                        let car = data;
+                        document.getElementById("infoLabel").innerHTML = car.mark.markName + "\n" + car.model.modelName;
+                        let result = "<tr><td>Mile age, km</td><td>" + car.mileAge + "</td></tr>";
+                        result += "<tr><td>Date created</td><td>" + car.created + "</td></tr>";
+                        result += "<tr><td>Gear box</td><td>" + car.transmission.gearBox + "</td></tr>";
+                        result += "<tr><td>Gear type</td><td>" + car.transmission.gearType + "</td></tr>";
+                        result += "<tr><td>Car body type</td><td>" + car.carBody.type + "</td></tr>";
+                        result += "<tr><td>Car body color</td><td>" + car.carBody.color + "</td></tr>";
+                        result += "<tr><td>Count door</td><td>" + car.carBody.countDoor + "</td></tr>";
+                        result += "<tr><td>Engine volume, l</td><td>" + car.engine.volume + "</td></tr>";
+                        result += "<tr><td>Engine power, hp</td><td>" + car.engine.power + "</td></tr>";
+                        result += "<tr><td>Engine type</td><td>" + car.engine.engineType + "</td></tr>";
+                        document.getElementById("info").innerHTML = result;
+                    }
+                </script>
+                <td th:text="${advert.price}"></td>
+                <td><p th:text="${advert.owner.name}"></p><br>
+                    <button th:id="user + ${advert.id}" type="button"
+                            th:onclick="'javascript:showInfoUser(' + ${advert.owner.id} + ')'"
+                            class="btn btn-primary" data-toggle="modal"
                             data-target="#userInfo">Details</button>
                     <script>
-                        $("#user${advert.id}").click(function () {
-                            let id = ${advert.owner.id};
+                        function showInfoUser(id) {
                             $.ajax({
                                 type: 'POST',
-                                url: '${pageContext.servletContext.contextPath}/users/' + id,
+                                url: './users/' + id,
                                 dataType: 'json',
                                 success: function (data) {
                                     addUserInfo(data);
                                 }
                             })
-                        });
+                        }
 
                         function addUserInfo(data) {
                             let user = data;
@@ -179,24 +168,16 @@
                         }
                     </script>
                 </td>
-                <td>
-                    <c:if test="${advert.imageName != ''}">
-                        <img src="${pageContext.servletContext.contextPath}/download?name=${advert.imageName}" width="200px" height="150px">
-                    </c:if>
+                <td th:switch="${advert.imageName != ''}">
+                    <p th:case="${true}"><img th:src="@{/download(name=${advert.imageName})}" width="200px" height="150px"></p>
+                    <p th:case="*">No photo</p>
                 </td>
-                <td>${advert.createdDate}</td>
-                <td>
-                    <c:choose>
-                        <c:when test="${advert.status}">
-                            Продано
-                        </c:when>
-                        <c:otherwise>
-                            В продаже
-                        </c:otherwise>
-                    </c:choose>
+                <td th:text="${advert.createdDate}"></td>
+                <td th:switch="${advert.status}" style="font-weight: 900">
+                    <p th:case="${true}">Sales</p>
+                    <p th:case="*">On sale</p>
                 </td>
             </tr>
-        </c:forEach>
         </tbody>
     </table>
 </div>

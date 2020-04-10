@@ -1,10 +1,10 @@
 package ru.job4j.carmarket.service;
 
-import ru.job4j.carmarket.model.*;
+import ru.job4j.carmarket.domain.*;
 
 import java.util.List;
 
-public interface Service<T, E, V> {
+public interface ServiceInterface<T, E, V> {
 
     List<T> findAll();
 
@@ -18,8 +18,6 @@ public interface Service<T, E, V> {
 
     V getUser(int id);
 
-    V isCredential(Account account);
-
     List<T> getAdvertsUser(V v);
 
     void updateStatus(T t);
@@ -27,9 +25,7 @@ public interface Service<T, E, V> {
     void addNewAdvert(CarBody carBody, Engine engine, Transmission transmission,
                       Mark mark, Model model, V v, E e, T t);
 
-    V addUser(V v, Account account);
-
-    boolean validateAccount(Account account);
+    V addUser(V v);
 
     boolean validateUser(V v);
 

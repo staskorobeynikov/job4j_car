@@ -1,17 +1,15 @@
 package ru.job4j.carmarket.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import ru.job4j.carmarket.model.*;
+import org.springframework.stereotype.Service;
+import ru.job4j.carmarket.domain.*;
 import ru.job4j.carmarket.repository.*;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-@Component(value = "crud")
-public class CrudAdvertsService implements Service<Advert, Car, User> {
-
-    private final AccountRepository accountRepository;
+@Service
+public class CrudAdvertsService implements ServiceInterface<Advert, Car, User> {
 
     private final AdvertRepository advertRepository;
 
@@ -30,12 +28,11 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
     private final TransmissionRepository transmissionRepository;
 
     @Autowired
-    public CrudAdvertsService(AccountRepository accountRepository, AdvertRepository advertRepository,
+    public CrudAdvertsService(AdvertRepository advertRepository,
                               CarBodyRepository carBodyRepository, CarRepository carRepository,
                               EngineRepository engineRepository, MarkRepository markRepository,
                               ModelRepository modelRepository, UserRepository userRepository,
                               TransmissionRepository transmissionRepository) {
-        this.accountRepository = accountRepository;
         this.advertRepository = advertRepository;
         this.carBodyRepository = carBodyRepository;
         this.carRepository = carRepository;
@@ -64,7 +61,7 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
 
     @Override
     public List<Advert> showWithSpecificMark(Mark mark) {
-        return advertRepository.findByCar_Mark_Name(mark.getName());
+        return advertRepository.findByCar_Mark_MarkName(mark.getMarkName());
     }
 
     @Override
@@ -75,11 +72,6 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
     @Override
     public User getUser(int id) {
         return userRepository.findUserById(id);
-    }
-
-    @Override
-    public User isCredential(Account account) {
-        return null;
     }
 
     @Override
@@ -98,19 +90,19 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
     @Override
     public void addNewAdvert(CarBody carBody, Engine engine, Transmission transmission,
                              Mark mark, Model model, User user, Car car, Advert advert) {
-        Mark findMark = markRepository.findMarkByName(mark.getName());
+        Mark findMark = markRepository.findMarkByMarkName(mark.getMarkName());
         if (findMark == null) {
             findMark = markRepository.save(mark);
         }
 
-        Model findModel = modelRepository.findModelByName(model.getName());
+        Model findModel = modelRepository.findModelByModelName(model.getModelName());
         if (findModel == null) {
             findModel = modelRepository.save(model);
         }
 
-        Engine findEngine = engineRepository.findEngineByVolumeAndTypeAndPower(
+        Engine findEngine = engineRepository.findEngineByVolumeAndEngineTypeAndPower(
                 engine.getVolume(),
-                engine.getType(),
+                engine.getEngineType(),
                 engine.getPower()
         );
 
@@ -154,18 +146,8 @@ public class CrudAdvertsService implements Service<Advert, Car, User> {
     }
 
     @Override
-    public User addUser(User user, Account account) {
+    public User addUser(User user) {
         return userRepository.save(user);
-    }
-
-    @Override
-    public boolean validateAccount(Account account) {
-        boolean result = true;
-        Account findAccount = accountRepository.findAccountByLogin(account.getLogin());
-        if (findAccount != null) {
-            result = false;
-        }
-        return result;
     }
 
     @Override
