@@ -24,6 +24,7 @@ public class AdvertsController {
     @RequestMapping(value = "/update/{id}/{status}/owner/{ownerId}", method = RequestMethod.POST)
     public String updateStatus(@ModelAttribute Advert advert, @PathVariable("ownerId") String ownerId, ModelMap modelMap) {
         service.updateStatus(advert);
+        modelMap.addAttribute("owner", service.getUser(Integer.parseInt(ownerId)));
         modelMap.addAttribute("adverts", service.getAdvertsUser(service.getUser(Integer.parseInt(ownerId))));
         return "adverts";
     }
@@ -43,7 +44,7 @@ public class AdvertsController {
             User user = new User();
             user.setUsername(username);
             modelMap.addAttribute("adverts", service.getAdvertsUser(user));
-            modelMap.addAttribute("user", service.findByUsername(username));
+            modelMap.addAttribute("owner", service.findByUsername(username));
             result = "adverts";
         }
         return result;
