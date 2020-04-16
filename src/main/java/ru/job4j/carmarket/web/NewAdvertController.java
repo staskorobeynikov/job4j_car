@@ -1,6 +1,7 @@
 package ru.job4j.carmarket.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +24,9 @@ public class NewAdvertController {
     private final ServiceInterface<Advert, Car, User> service;
 
     @Autowired
+    private Environment environment;
+
+    @Autowired
     public NewAdvertController(ServiceInterface<Advert, Car, User> service) {
         this.service = service;
     }
@@ -38,7 +42,7 @@ public class NewAdvertController {
         String imageName = "";
 
         if (photo != null && !photo.isEmpty()) {
-            String repository = "c:/images";
+            String repository = environment.getProperty("folder.image");
             String photoName = this.getNamePhoto(photo.getOriginalFilename());
             Path path = Paths.get(repository, photoName);
             if (Files.notExists(Paths.get(repository))) {
