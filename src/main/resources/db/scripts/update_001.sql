@@ -1,15 +1,11 @@
-create table accounts(
-	id serial primary key,
-	login varchar(15) not null,
-	password varchar(25) not null
-);
-
 create table users(
 	id serial primary key,
 	name varchar(50) not null,
 	phone varchar(20) not null,
 	address varchar(50) not null,
-	account_id integer not null references accounts(id)
+	username varchar(50) not null,
+	password varchar(500) not null,
+	role varchar(50) not null
 );
 
 create table carbodies(
