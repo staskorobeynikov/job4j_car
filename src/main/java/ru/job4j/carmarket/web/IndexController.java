@@ -2,7 +2,6 @@ package ru.job4j.carmarket.web;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.ModelMap;
@@ -25,9 +24,6 @@ import java.io.IOException;
 public class IndexController {
 
     private final ServiceInterface<Advert, Car, User> service;
-
-    @Autowired
-    private Environment environment;
 
     @Autowired
     public IndexController(ServiceInterface<Advert, Car, User> service) {
@@ -67,7 +63,7 @@ public class IndexController {
         resp.setContentType("name=" + name);
         resp.setContentType("image/png");
         resp.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
-        String folder = environment.getProperty("folder.image");
+        String folder = System.getProperty("java.io.tmpdir");
         File file = new File(folder + File.separator + name);
         try (FileInputStream in = new FileInputStream(file)) {
             resp.getOutputStream().write(in.readAllBytes());

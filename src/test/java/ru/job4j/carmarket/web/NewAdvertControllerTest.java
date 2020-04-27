@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -14,14 +16,14 @@ import ru.job4j.carmarket.domain.*;
 import ru.job4j.carmarket.service.CrudAdvertsService;
 import ru.job4j.carmarket.service.MyUserDetailsService;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -87,11 +89,17 @@ public class NewAdvertControllerTest {
         Advert advert = new Advert();
         advert.setId(0);
         advert.setPrice(5700000);
-        advert.setImageName("");
         advert.setCar(car);
         advert.setOwner(user);
         advert.setStatus(false);
         advert.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+
+        MockMultipartFile file = new MockMultipartFile(
+                "photo",
+                "imagetest.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "<<png data>>".getBytes(StandardCharsets.UTF_8)
+        );
 
         Map<String, Object> attrs = new LinkedHashMap<>();
         attrs.put("mark", mark);
@@ -110,7 +118,7 @@ public class NewAdvertControllerTest {
         given(this.service.findByUsername(userName)).willReturn(user);
 
         this.mockMvc.perform(
-                post("/adds").flashAttrs(attrs).params(params)
+                multipart("/adds").file(file).flashAttrs(attrs).params(params)
         ).andExpect(status().is3xxRedirection());
 
         verify(this.service, times(1)).addNewAdvert(carBody, engine, transmission, mark, model, user, car, advert);
