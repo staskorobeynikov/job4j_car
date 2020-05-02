@@ -30,4 +30,6 @@ public interface ServiceInterface<T, E, V> {
     boolean validateUser(V v);
 
     V findByUsername(String username);
+
+    List<Mark> findAllMarks();
 }

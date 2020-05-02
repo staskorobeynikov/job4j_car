@@ -33,6 +33,7 @@ public class IndexController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showAll(ModelMap modelMap) {
         modelMap.addAttribute("adverts", service.findAll());
+        modelMap.addAttribute("marks", service.findAllMarks());
         return "index";
     }
 
@@ -40,6 +41,7 @@ public class IndexController {
     public String showWithPhoto(ModelMap modelMap) {
         modelMap.addAttribute("adverts", service.showWithPhoto());
         modelMap.addAttribute("photo", true);
+        modelMap.addAttribute("marks", service.findAllMarks());
         return "index";
     }
 
@@ -47,12 +49,17 @@ public class IndexController {
     public String showLastDay(ModelMap modelMap) {
         modelMap.addAttribute("adverts", service.showLastDay());
         modelMap.addAttribute("day", true);
+        modelMap.addAttribute("marks", service.findAllMarks());
         return "index";
     }
 
     @RequestMapping(value = "/marks/{markName}", method = RequestMethod.GET)
     public String showSpecificMark(@ModelAttribute Mark mark, ModelMap modelMap) {
+        if (mark.getMarkName().equals("none")) {
+            return "redirect:/";
+        }
         modelMap.addAttribute("adverts", service.showWithSpecificMark(mark));
+        modelMap.addAttribute("marks", service.findAllMarks());
         modelMap.addAttribute("setMark", mark.getMarkName());
         return "index";
     }

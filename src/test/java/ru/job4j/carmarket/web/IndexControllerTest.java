@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -115,6 +116,16 @@ public class IndexControllerTest {
         this.mockMvc.perform(get("/withphoto").accept(MediaType.TEXT_HTML))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = "USER")
+    public void whenShowWithSpecificMarkThanStatusIsRedirection() throws Exception {
+        Mark mark = mock(Mark.class);
+        given(mark.getMarkName()).willReturn("none");
+
+        this.mockMvc.perform(get("/marks/none").accept(MediaType.TEXT_HTML))
+                .andExpect(status().is3xxRedirection());
     }
 
     @Test

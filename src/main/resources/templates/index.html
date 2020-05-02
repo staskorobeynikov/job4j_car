@@ -36,7 +36,7 @@
     function showWithPhoto() {
         let selector = $("#fPhoto");
         if (selector.prop("checked")) {
-            document.location.href = "./withphoto";
+            document.location.href = "/withphoto";
         } else {
             document.location.href = "./";
         }
@@ -45,7 +45,7 @@
     function showLastDay() {
         let selector = $("#lDay");
         if (selector.prop("checked")) {
-            document.location.href = "./lastday";
+            document.location.href = "/lastday";
         } else {
             document.location.href = "./";
         }
@@ -71,13 +71,10 @@
         <label class="col-form-label col-sm-2" for="mark" style="font-weight: 900">Show cars mark</label>
         <div class="col">
             <select class="custom-select" id="mark" name="mark">
-                <option th:value="${setMark}" th:text="${setMark}" th:selected="mark==setMark"></option>
-                <option value="Toyota">Toyota</option>
-                <option value="Mercedes">Mercedes</option>
-                <option value="Renault">Renault</option>
-                <option value="Kia">Kia</option>
-                <option value="Volvo">Volvo</option>
-                <option value="Mazda">Mazda</option>
+                <option value="none">-----</option>
+                <option th:each="mark : ${marks}"
+                        th:value="${mark.markName}" th:text="${mark.markName}" th:selected="${mark.markName==setMark}">
+                </option>
             </select>
             <script>
                 $(".custom-select").change(function () {
@@ -96,7 +93,7 @@
 <div class="container">
     <table class="table table-striped, table-bordered" id="allAdverts">
         <thead class="thead-dark">
-        <tr align="middle">
+        <tr style="text-align: center">
             <th scope="col">Car</th>
             <th scope="col">Price</th>
             <th scope="col">Seller</th>

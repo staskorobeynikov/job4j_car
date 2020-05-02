@@ -164,4 +164,9 @@ public class CrudAdvertsService implements ServiceInterface<Advert, Car, User> {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public List<Mark> findAllMarks() {
+        return (List<Mark>) markRepository.findAll();
+    }
 }

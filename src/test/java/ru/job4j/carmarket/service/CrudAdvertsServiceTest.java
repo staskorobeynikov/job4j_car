@@ -18,6 +18,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
@@ -241,6 +242,17 @@ public class CrudAdvertsServiceTest {
     }
 
     @Test
+    public void whenTestMethodGetAllMarks() {
+        List<Mark> marks = new ArrayList<>();
+        marks.add(list.get(0).getCar().getMark());
+        given(this.markRepository.findAll()).willReturn(marks);
+
+        List<Mark> result = service.findAllMarks();
+
+        assertThat(result.get(0).getMarkName(), is("mercedes"));
+    }
+
+    @Test
     public void whenTestMethodAddNewAdvert() {
         int id = 1;
 
@@ -283,5 +295,18 @@ public class CrudAdvertsServiceTest {
         );
 
         verify(advertRepository).save(any(Advert.class));
+    }
+
+    @Test
+    public void whenTestMethodUpdateStatusAdvert() {
+        Advert advert = mock(Advert.class);
+
+        given(this.advertRepository.findAdvertById(advert.getId())).willReturn(list.get(0));
+        given(advert.isStatus()).willReturn(true);
+        given(this.advertRepository.save(advert)).willReturn(list.get(0));
+
+        service.updateStatus(advert);
+
+        verify(this.advertRepository).save(any(Advert.class));
     }
 }
