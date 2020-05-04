@@ -35,10 +35,6 @@ public class Advert {
     public Advert() {
     }
 
-    public Advert(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }

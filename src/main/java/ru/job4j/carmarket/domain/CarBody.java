@@ -23,10 +23,6 @@ public class CarBody {
     public CarBody() {
     }
 
-    public CarBody(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }

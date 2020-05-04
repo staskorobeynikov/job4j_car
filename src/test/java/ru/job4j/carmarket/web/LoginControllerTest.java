@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import ru.job4j.carmarket.service.CrudAdvertsService;
 import ru.job4j.carmarket.service.MyUserDetailsService;
 
@@ -41,6 +43,16 @@ public class LoginControllerTest {
     @WithMockUser(username = "user", roles = "USER")
     public void whenGetViewThanViewLogin() throws Exception {
         this.mockMvc.perform(get("/login").accept(MediaType.TEXT_HTML))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"));
+    }
+
+    @Test
+    public void whenGetViewThanViewLoginWithErrorInModelAttribute() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("error", "ERROR");
+
+        this.mockMvc.perform(get("/login").params(params).accept(MediaType.TEXT_HTML))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }

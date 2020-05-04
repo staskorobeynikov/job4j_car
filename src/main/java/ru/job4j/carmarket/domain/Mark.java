@@ -17,10 +17,6 @@ public class Mark {
     public Mark() {
     }
 
-    public Mark(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }
