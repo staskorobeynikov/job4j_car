@@ -131,11 +131,11 @@ public class CrudAdvertsServiceTest {
     @Test
     public void whenCallMethodShowLastDay() {
         Timestamp findDate = new Timestamp(System.currentTimeMillis() - 86400000L);
-        given(this.advertRepository.findByCreatedDateAfter(findDate)).willReturn(list);
+        given(this.advertRepository.findByCreatedDateAfter(findDate)).willReturn(new ArrayList<>());
 
         List<Advert> adverts = service.showLastDay();
 
-        assertThat(adverts.size(), is(1));
+        assertThat(adverts.size(), is(0));
     }
 
     @Test
